@@ -10,12 +10,15 @@ fn main() {
 
     for entry in entries {
         let entry = entry.unwrap();
-        let path = entry.path();
+        let from = entry.path();
 
-        if let Some(ext) = path.extension() {
+        if let Some(ext) = from.extension() {
             if ext == "png" || ext == "jpg" {
-                let new_name = dir.join(Uuid::new_v4().to_string() + "." + ext.to_str().unwrap());
-                fs::rename(path, new_name).unwrap();
+                let to = dir.join(Uuid::new_v4().to_string() + "." + ext.to_str().unwrap());
+                let from_file_name = from.file_name().unwrap().to_str().unwrap();
+                let to_file_name = to.file_name().unwrap().to_str().unwrap();
+                println!("{} -> {}", from_file_name, to_file_name);
+                fs::rename(from, to).unwrap();
             }
         }
     }
